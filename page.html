@@ -1,0 +1,96 @@
+<html>
+<head>
+ <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+<script lang="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.12.9/xlsx.full.min.js"></script>
+<script lang="javascript" src="https://fastcdn.org/FileSaver.js/1.1.20151003/FileSaver.min.js"></script>
+<body>
+  <!-- Load Facebook SDK for JavaScript -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js#xfbml=1&version=v2.12&autoLogAppEvents=1';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<!-- Your customer chat code -->
+<div class="fb-customerchat"
+  attribution="setup_tool"
+  page_id="663136307351791">
+</div>
+<div id="navbar"><span>Red Stapler - SheetJS </span></div>
+<div id="wrapper">
+       <table id="myTable" style="border: 1px;">
+   <th>БИН/ИИН</th>
+   <th>Наименование</th>
+   <th>Количество квартир</th>
+   <th>Количество зарегистрированных квартир</th>
+   <th>Процент проникновения</th>
+   <tbody>
+      <tr>
+         <td>81040006769</td>
+         <td>Global Home Service ТОО</td>
+         <td>484</td>
+         <td>3</td>
+         <td>0.62%</td>
+      </tr>
+      <tr>
+         <td>170540002186</td>
+         <td>ПК T-Towers</td>
+         <td>310</td>
+         <td>26</td>
+         <td>8.39%</td>
+      </tr>
+      <tr>
+         <td>020740009031</td>
+         <td>ЖК Арай, ТОО Компания Дана</td>
+         <td>810</td>
+         <td>91</td>
+         <td>11.23%</td>
+      </tr>
+      <tr>
+         <td>970740003367</td>
+         <td>Геолог-2 ПКСК</td>
+         <td>812</td>
+         <td>12</td>
+         <td>1.48%</td>
+      </tr>
+      <tr>
+         <td>990540003452</td>
+         <td>Азат КСП</td>
+         <td>51</td>
+         <td>2</td>
+         <td>3.92%</td>
+      </tr>
+      <tr>
+         <td>140440030747</td>
+         <td>Образцовый дом ПК</td>
+         <td>121</td>
+         <td>1</td>
+         <td>0.83%</td>
+      </tr>
+         </tbody>
+</table>
+        <button id="button-a">Create Excel</button>
+</div>
+<script>
+    /*  console.log(document.getElementById('myTable'));
+      var Table = document.getElementById("mytable");
+Table.innerHTML = "";
+        console.log(document.getElementById('myTable'));*/
+        var wb = XLSX.utils.table_to_book(document.getElementById('myTable'), {sheet:"Sheet JS"});
+        var wbout = XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'});
+        function s2ab(s) {
+                        var buf = new ArrayBuffer(s.length);
+                        var view = new Uint8Array(buf);
+                        for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+                        return buf;
+        }
+        $("#button-a").click(function(){
+        saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), 'res.xlsx');
+        });
+</script>
+</body>
+</html>
+
